@@ -14,7 +14,6 @@ public class Order {
     private String state;
     private String zip;
     private BigDecimal shippingAmount;
-    private List<OrderLineItem> lineItems;
 
     public Order() {}
 
@@ -93,11 +92,4 @@ public class Order {
         this.shippingAmount = shippingAmount;
     }
 
-    public List<OrderLineItem> getLineItems() {
-        return lineItems;
-    }
-
-    public void setLineItems(List<OrderLineItem> lineItems) {
-        this.lineItems = lineItems;
-    }
 }

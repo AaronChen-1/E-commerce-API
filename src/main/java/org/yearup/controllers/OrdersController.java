@@ -55,6 +55,14 @@ public class OrdersController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Complete your profile first.");
             }
 
+            // Calculate order total from cart items
+            BigDecimal orderTotal = BigDecimal.ZERO;
+            for (ShoppingCartItem item : cart.getItems().values()) {
+                BigDecimal itemTotal = item.getProduct().getPrice()
+                        .multiply(new BigDecimal(item.getQuantity()));
+                orderTotal = orderTotal.add(itemTotal);
+            }
+
             // Create order with current timestamp and user's profile info
             Order order = new Order(
                     userId,
@@ -63,7 +71,7 @@ public class OrdersController {
                     profile.getCity(),
                     profile.getState(),
                     profile.getZip(),
-                    new BigDecimal("0.00")  // Default shipping cost
+                    orderTotal
             );
 
             // Insert order into database (gets auto-generated orderId)

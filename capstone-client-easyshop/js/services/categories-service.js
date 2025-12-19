@@ -1,23 +1,20 @@
 let categoryService;
 
 class CategoryService {
-
-
-    getAllCategories(callback)
-    {
+    
+    categories = [];
+    
+    getAllCategories(callback) {
         const url = `${config.baseUrl}/categories`;
-
-        return axios.get(url)
+        axios.get(url)
             .then(response => {
-                callback(response.data);
+                this.categories = response.data;
+                if (callback) {
+                    callback(this.categories);
+                }
             })
             .catch(error => {
-
-                const data = {
-                    error: "Loading categories failed."
-                };
-
-                templateBuilder.append("error", data, "errors")
+                console.error("Error loading categories:", error);
             });
     }
 }

@@ -7,12 +7,14 @@ class OrdersService {
     checkout() {
         const url = `${config.baseUrl}/orders`;
         
+        console.log("Starting checkout...");
+        
         axios.post(url, {})
             .then(response => {
+                console.log("Checkout success:", response.data);
                 this.currentOrder = response.data;
                 this.displayOrderConfirmation();
                 
-                // Clear cart after successful checkout
                 cartService.cart = {
                     items: [],
                     total: 0
@@ -20,17 +22,20 @@ class OrdersService {
                 cartService.updateCartDisplay();
             })
             .catch(error => {
-                if (error.response && error.response.data && error.response.data.message) {
-                    const data = {
-                        error: error.response.data.message
-                    };
-                    templateBuilder.append("error", data, "errors");
-                } else {
-                    const data = {
-                        error: "Checkout failed. Please make sure you have a profile and items in cart."
-                    };
-                    templateBuilder.append("error", data, "errors");
+                console.error("Checkout failed:", error);
+                
+                let errorMsg = "Checkout failed.";
+                
+                if (error.response && error.response.data) {
+                    errorMsg = error.response.data.message || "Checkout failed.";
+                } else if (error.message) {
+                    errorMsg = error.message;
                 }
+                
+                const data = {
+                    error: errorMsg + " Make sure your profile is complete with address, city, state, and zip."
+                };
+                templateBuilder.append("error", data, "errors");
             });
     }
     

@@ -1,12 +1,28 @@
-<!-- Add to header navigation -->
-<button onclick="editProfile()" class="btn btn-info" title="View/Edit Profile">
-    Profile
-</button>
-
-<button onclick="proceedToCheckout()" class="btn btn-success" title="Checkout">
-    Checkout (<span id="cart-items">0</span>)
-</button>
-
-<button onclick="userService.logout()" class="btn btn-warning" title="Logout">
-    Logout
-</button>
+<header>
+    <div>
+        <span style="font-size: 24px; font-weight: bold;">EasyShop</span>
+    </div>
+    
+    <div class="header-links">
+        {{#loggedin}}
+        <!-- User is logged in -->
+        <span>Welcome, {{username}}!</span>
+        <button class="btn btn-info" onclick="editProfile()" title="View/Edit Profile">
+            Profile
+        </button>
+        <button class="btn btn-success" onclick="proceedToCheckout()" title="Checkout">
+            Checkout (<span id="cart-items">0</span>)
+        </button>
+        <button class="btn btn-warning" onclick="userService.logout()" title="Logout">
+            Logout
+        </button>
+        {{/loggedin}}
+        
+        {{#loggedout}}
+        <!-- User is NOT logged in -->
+        <button class="btn btn-primary" onclick="showLoginForm()" title="Sign In">
+            Login
+        </button>
+        {{/loggedout}}
+    </div>
+</header>

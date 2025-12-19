@@ -37,12 +37,14 @@ function loadCategories(categories) {
         categorySelect.innerHTML = '<option value="0">Show All</option>';
         categories.forEach(category => {
             const option = document.createElement('option');
-            option.value = category.id;
+            // Use categoryId if id doesn't exist
+            option.value = category.categoryId || category.id;
             option.textContent = category.name;
             categorySelect.appendChild(option);
         });
     }
 }
+
 
 function editProfile() {
     if (!userService.isLoggedIn()) {
@@ -204,6 +206,16 @@ function displayCheckoutItems() {
     
     console.log("Total calculated:", calculatedTotal.toFixed(2));
     document.getElementById('checkout-total').innerText = calculatedTotal.toFixed(2);
+}
+
+function clearCartAndRefresh() {
+    if (confirm("Are you sure you want to clear your cart?")) {
+        cartService.clearCart();
+        setTimeout(() => {
+            cartService.updateCartDisplay();
+            loadHome();
+        }, 500);
+    }
 }
 
 

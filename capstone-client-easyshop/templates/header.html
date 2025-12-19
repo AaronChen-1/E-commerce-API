@@ -13,7 +13,10 @@
         <button class="btn btn-success" onclick="proceedToCheckout()" title="Checkout">
             Checkout (<span id="cart-items">0</span>)
         </button>
-        <button class="btn btn-warning" onclick="userService.logout()" title="Logout">
+        <button class="btn btn-warning" onclick="clearCartAndRefresh()" title="Clear Cart">
+            Clear Cart
+        </button>
+        <button class="btn btn-danger" onclick="userService.logout()" title="Logout">
             Logout
         </button>
         {{/loggedin}}

@@ -190,28 +190,6 @@ src/
 - `POST /orders/checkout` - Process checkout
 - `GET /orders` - Get user's orders
 
-## 🎨 Design System
-
-### Color Palette
-- **Primary:** Teal (#208080)
-- **Accent:** Cream (#FFFCF9)
-- **Text:** Charcoal (#1F2121)
-- **Secondary:** Muted brown/gray tones
-
-### Typography
-- **Font:** FKGroteskNeue / Geist / Inter
-- **Sizes:** xs (11px) → 4xl (30px)
-- **Weights:** Normal (400) → Bold (600)
-
-### Spacing System
-- Consistent 4px grid
-- Variables: space-4 through space-32
-
-### Responsive Breakpoints
-- Mobile portrait: 480px and below
-- Tablet: 640px - 1024px
-- Desktop: 1024px+
-
 ## 📝 User Journey
 
 1. **Browse** - User lands on homepage, sees product grid
@@ -222,62 +200,40 @@ src/
 6. **Checkout** - Review cart and proceed to checkout
 7. **Confirm** - Complete purchase and view order confirmation
 
-## ✨ Key Features Implemented
+## 📸 Screenshots
 
-✅ Responsive product grid with auto-fit columns
-✅ Advanced filtering (category, price range, color)
-✅ Image modal for product detail viewing
-✅ Shopping cart with real-time updates
-✅ User authentication with JWT tokens
-✅ Profile management with address/contact info
-✅ Order history tracking
-✅ Secure checkout process
-✅ Modern design system with CSS variables
-✅ Mobile-first responsive design
-✅ Professional branding with custom logo
+### Home page / product grid
+<img width="1192" height="845" alt="image" src="https://github.com/user-attachments/assets/f43c72a0-d2cb-407b-a1f4-57251fbc54f4" />
 
-## 🔒 Security Features
 
-- JWT token-based authentication
-- Password hashing on backend
-- Secure API endpoints with authorization headers
-- Token persistence with localStorage
-- XSS protection through templating
 
-## 📈 Performance Optimizations
+### Shopping cart / checkout
+<img width="654" height="472" alt="image" src="https://github.com/user-attachments/assets/e5404836-9031-45be-88f7-ffef02169e67" />
 
-- Client-side filtering to reduce API calls
-- Image lazy loading support
-- Responsive grid layout with auto-fit
-- CSS variables for efficient styling
-- Minimized reflows with flexbox/grid
+## 🧠 Interesting Piece of Code
 
-## 🐛 Known Limitations & Future Enhancements
+### Login-aware UI behavior (show/hide “Add to cart”)
+```javascript
+enableButtons() {
+    const buttons = [...document.querySelectorAll(".add-button")];
 
-### Current Limitations
-- Single-user session per browser
-- No payment gateway integration (demo mode)
-- Limited product images
-- No email notifications
-
-### Future Enhancements
-- Payment gateway integration (Stripe/PayPal)
-- Email confirmation system
-- Product reviews and ratings
-- Wishlist functionality
-- Admin dashboard for product management
-- Search functionality
-- Product recommendations
-- Multi-language support
+    if (userService.isLoggedIn()) {
+        buttons.forEach(button => {
+            button.classList.remove("invisible");
+        });
+    } else {
+        buttons.forEach(button => {
+            button.classList.add("invisible");
+        });
+    }
+}
+```
 
 ## 🤝 Contributing
 
 This is a capstone project. For questions or improvements, please reach out.
 
-## 📄 License
-
-This project is for educational purposes.
 
 ---
 
-**Built with ❤️ as a comprehensive full-stack e-commerce solution**
+**Built with ❤️ as a comprehensive full-stack e-commerce site**

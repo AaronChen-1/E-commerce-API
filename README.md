@@ -240,6 +240,18 @@ enableButtons() {
     }
 }
 ```
+Why this is interesting:
+
+Shows a clean separation between auth state (userService.isLoggedIn()) and UI state (which buttons are visible).​
+
+Provides a simple but real example of conditional rendering in vanilla JavaScript, similar to what frameworks do under the hood.​
+
+Ties together multiple parts of the app: authentication, product list rendering, and CSS classes.​
+
+## 🐛 Future Enhancements
+- Will add registration functionality
+- Search functionality
+- Product recommendations
 
 ## 🤝 Contributing
 

@@ -1,0 +1,55 @@
+<div class="checkout-container">
+    <h1>Checkout</h1>
+    
+    <div class="checkout-summary">
+        <h3>Order Summary</h3>
+        <div id="checkout-items"></div>
+        <div class="checkout-total">
+            <h2>Total: $<span id="checkout-total">0.00</span></h2>
+        </div>
+    </div>
+    
+    <div class="checkout-actions">
+        <button class="btn btn-primary" onclick="proceedWithCheckout()">
+            Place Order
+        </button>
+        <button class="btn btn-secondary" onclick="loadHome()">
+            Continue Shopping
+        </button>
+    </div>
+</div>
+
+<script>
+function displayCheckoutItems() {
+    const container = document.getElementById('checkout-items');
+    container.innerHTML = '';
+    
+    cartService.cart.items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'checkout-item';
+        itemDiv.innerHTML = `
+            <div class="item-name">${item.product.name}</div>
+            <div class="item-qty">Qty: ${item.quantity}</div>
+            <div class="item-price">$${(item.product.price * item.quantity).toFixed(2)}</div>
+        `;
+        container.appendChild(itemDiv);
+    });
+    
+    document.getElementById('checkout-total').innerText = cartService.cart.total.toFixed(2);
+}
+
+function proceedWithCheckout() {
+    // Check if cart is empty
+    if (cartService.cart.items.length === 0) {
+        const data = { error: "Your cart is empty" };
+        templateBuilder.append("error", data, "errors");
+        return;
+    }
+    
+    // Start checkout process
+    ordersService.checkout();
+}
+
+// Display items on page load
+displayCheckoutItems();
+</script>

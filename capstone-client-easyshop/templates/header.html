@@ -1,27 +1,12 @@
+<!-- Add to header navigation -->
+<button onclick="editProfile()" class="btn btn-info" title="View/Edit Profile">
+    Profile
+</button>
 
-{{#loggedin}}
-<div id="links">
-    <img src="/images/logo.svg" alt="easyshop logo">
-    <a href="#" onclick="loadHome()">Home</a>
-    <a href="#" onclick="editProfile()">Profile</a>
-    <a href="#" onclick="showCart()">View Cart</a>
-</div>
+<button onclick="proceedToCheckout()" class="btn btn-success" title="Checkout">
+    Checkout (<span id="cart-items">0</span>)
+</button>
 
-<div>
-    Welcome&nbsp;<span style="font-weight: bold">{{username}}</span>&nbsp;|&nbsp;<a href="#" onclick="userService.logout();return false;">logout</a>
-    <div class="cart" onclick="showCart()">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <div id="cart-items">0</div>
-    </div>
-</div>
-{{/loggedin}}
-{{#loggedout}}
-<div id="links">
-    <img src="/images/logo.svg" alt="easyshop logo">
-    <a href="#" onclick="loadHome()">Home</a>
-</div>
-
-<div>
-    <a href="#"  onclick="showLoginForm();return false;">login</a>
-</div>
-{{/loggedout}}
+<button onclick="userService.logout()" class="btn btn-warning" title="Logout">
+    Logout
+</button>

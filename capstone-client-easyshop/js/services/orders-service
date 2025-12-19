@@ -1,0 +1,54 @@
+let ordersService;
+
+class OrdersService {
+    
+    currentOrder = {};
+    
+    checkout() {
+        const url = `${config.baseUrl}/orders`;
+        
+        axios.post(url, {})
+            .then(response => {
+                this.currentOrder = response.data;
+                this.displayOrderConfirmation();
+                
+                // Clear cart after successful checkout
+                cartService.cart = {
+                    items: [],
+                    total: 0
+                };
+                cartService.updateCartDisplay();
+            })
+            .catch(error => {
+                if (error.response && error.response.data && error.response.data.message) {
+                    const data = {
+                        error: error.response.data.message
+                    };
+                    templateBuilder.append("error", data, "errors");
+                } else {
+                    const data = {
+                        error: "Checkout failed. Please make sure you have a profile and items in cart."
+                    };
+                    templateBuilder.append("error", data, "errors");
+                }
+            });
+    }
+    
+    displayOrderConfirmation() {
+        const confirmationData = {
+            orderId: this.currentOrder.orderId,
+            total: this.currentOrder.shippingAmount.toFixed(2),
+            address: this.currentOrder.address,
+            city: this.currentOrder.city,
+            state: this.currentOrder.state,
+            zip: this.currentOrder.zip,
+            date: new Date(this.currentOrder.date).toLocaleString()
+        };
+        
+        templateBuilder.build('order-confirmation', confirmationData, 'main');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    ordersService = new OrdersService();
+});

@@ -1,47 +1,65 @@
 let profileService;
 
-class ProfileService
-{
-    loadProfile()
-    {
+class ProfileService {
+    
+    currentProfile = {};
+    
+    loadProfile() {
         const url = `${config.baseUrl}/profile`;
-
         axios.get(url)
-             .then(response => {
-                 templateBuilder.build("profile", response.data, "main")
-             })
-             .catch(error => {
-                 const data = {
-                     error: "Load profile failed."
-                 };
-
-                 templateBuilder.append("error", data, "errors")
-             })
+            .then(response => {
+                this.currentProfile = response.data;
+                this.displayProfileForm();
+            })
+            .catch(error => {
+                const data = {
+                    error: "Load profile failed."
+                };
+                templateBuilder.append("error", data, "errors");
+            });
     }
-
-    updateProfile(profile)
-    {
-
+    
+    displayProfileForm() {
+        const profileData = {
+            firstName: this.currentProfile.firstName || '',
+            lastName: this.currentProfile.lastName || '',
+            phone: this.currentProfile.phone || '',
+            email: this.currentProfile.email || '',
+            address: this.currentProfile.address || '',
+            city: this.currentProfile.city || '',
+            state: this.currentProfile.state || '',
+            zip: this.currentProfile.zip || ''
+        };
+        
+        templateBuilder.build('profile', profileData, 'main');
+    }
+    
+    updateProfile(profile) {
         const url = `${config.baseUrl}/profile`;
-
+        
         axios.put(url, profile)
-             .then(() => {
-                 const data = {
-                     message: "The profile has been updated."
-                 };
-
-                 templateBuilder.append("message", data, "errors")
-             })
-             .catch(error => {
-                 const data = {
-                     error: "Save profile failed."
-                 };
-
-                 templateBuilder.append("error", data, "errors")
-             })
+            .then(response => {
+                this.currentProfile = response.data;
+                
+                const data = {
+                    message: "Profile updated successfully!"
+                };
+                templateBuilder.append("success", data, "errors");
+                
+                // Clear form after 2 seconds
+                setTimeout(() => {
+                    loadHome();
+                }, 2000);
+            })
+            .catch(error => {
+                const data = {
+                    error: "Update profile failed."
+                };
+                templateBuilder.append("error", data, "errors");
+            });
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-   profileService = new ProfileService();
+document.addEventListener('DOMContentLoaded', () => {
+    profileService = new ProfileService();
 });

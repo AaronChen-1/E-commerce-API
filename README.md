@@ -119,10 +119,22 @@ src/
    - Update `application.properties` with your MySQL credentials
 
 3. **Run Spring Boot Application**
+
+Windows
    ```bash
-   mvn spring-boot:run
+   .\mvn spring-boot:run
    ```
-   - Server runs on `http://localhost:8080`
+macOS / Linux
+   ```bash
+   ./mvn spring-boot:run
+   ``` 
+IntelliJ (No Terminal Needed)
+- Open project
+- Open class with @SpringBootApplication
+- Click ▶ Run
+
+
+### Server runs on `http://localhost:8080`
 
 ### Frontend Setup
 
@@ -133,7 +145,7 @@ src/
    ```
 
 2. **Serve Frontend**
-   - Open `index.html` in browser or use a local server:
+   - Open `index.html` in browser or use a **local server** (recommended):
    ```bash
    python -m http.server 8000
    # or

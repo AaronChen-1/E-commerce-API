@@ -100,7 +100,13 @@ function proceedToCheckout() {
     }
 
     templateBuilder.build('checkout', {}, 'main');
+    
+    // Display checkout items after template loads
+    setTimeout(() => {
+        displayCheckoutItems();
+    }, 200);
 }
+
 
 function proceedWithCheckout() {
     console.log("proceedWithCheckout called");
@@ -153,6 +159,53 @@ function closeError(control) {
         control.click();
     }, 3000);
 }
+
+function displayCheckoutItems() {
+    console.log("displayCheckoutItems called");
+    console.log("Cart items:", cartService.cart.items);
+    
+    const container = document.getElementById('checkout-items');
+    if (!container) {
+        console.error("checkout-items container not found!");
+        return;
+    }
+    
+    container.innerHTML = '';
+    let calculatedTotal = 0;
+    
+    if (!cartService.cart.items || cartService.cart.items.length === 0) {
+        container.innerHTML = '<p style="color: red; font-size: 16px;">Your cart is empty!</p>';
+        document.getElementById('checkout-total').innerText = '0.00';
+        return;
+    }
+    
+    cartService.cart.items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.style.cssText = 'padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee;';
+        
+        const itemTotal = item.product.price * item.quantity;
+        calculatedTotal += itemTotal;
+        
+        const productName = item.product.name;
+        const quantity = item.quantity;
+        const price = item.product.price.toFixed(2);
+        const total = itemTotal.toFixed(2);
+        
+        itemDiv.innerHTML = `
+            <div>
+                <div style="font-weight: bold; font-size: 16px;">${productName}</div>
+                <div style="font-size: 14px; color: #666;">Qty: ${quantity} @ $${price} each</div>
+            </div>
+            <div style="font-weight: bold; font-size: 16px;">$${total}</div>
+        `;
+        
+        container.appendChild(itemDiv);
+    });
+    
+    console.log("Total calculated:", calculatedTotal.toFixed(2));
+    document.getElementById('checkout-total').innerText = calculatedTotal.toFixed(2);
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     loadHome();

@@ -1,71 +1,21 @@
-<div class="checkout-container" style="padding: 20px; max-width: 600px;">
-    <h1>Checkout</h1>
+<div class="checkout-container" style="padding: 20px; max-width: 600px; margin: 0 auto;">
+    <h1>Order Summary</h1>
     
-    <div class="checkout-summary" style="border: 1px solid #ccc; padding: 15px; margin: 20px 0; border-radius: 5px;">
-        <h3>Order Summary</h3>
-        <div id="checkout-items" style="margin: 15px 0;">
-            <!-- Items will be displayed here -->
+    <div class="checkout-summary" style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; border-radius: 5px; background-color: #f9f9f9;">
+        <div id="checkout-items" style="margin-bottom: 20px;">
+            <!-- Items will display here -->
         </div>
-        <div class="checkout-total" style="border-top: 2px solid #333; padding-top: 10px; margin-top: 10px;">
-            <h2>Total: $<span id="checkout-total">0.00</span></h2>
+        <div class="checkout-total" style="border-top: 2px solid #333; padding-top: 15px; text-align: right;">
+            <h3>Total: $<span id="checkout-total">0.00</span></h3>
         </div>
     </div>
     
     <div class="checkout-actions" style="display: flex; gap: 10px; margin-top: 20px;">
-        <button class="btn btn-primary" onclick="proceedWithCheckout()" style="flex: 1; padding: 10px;">
+        <button class="btn btn-primary" onclick="proceedWithCheckout()" style="flex: 1; padding: 12px; font-size: 16px;">
             Place Order
         </button>
-        <button class="btn btn-secondary" onclick="loadHome()" style="flex: 1; padding: 10px;">
+        <button class="btn btn-secondary" onclick="loadHome()" style="flex: 1; padding: 12px; font-size: 16px;">
             Continue Shopping
         </button>
     </div>
 </div>
-
-<script>
-// Wait for checkout page to be fully loaded, then display items
-setTimeout(() => {
-    displayCheckoutItems();
-}, 100);
-
-function displayCheckoutItems() {
-    console.log("displayCheckoutItems called");
-    console.log("Cart service:", cartService);
-    console.log("Cart items:", cartService.cart.items);
-    
-    const container = document.getElementById('checkout-items');
-    if (!container) {
-        console.error("checkout-items container not found!");
-        return;
-    }
-    
-    container.innerHTML = '';
-    
-    let calculatedTotal = 0;
-    
-    if (!cartService.cart.items || cartService.cart.items.length === 0) {
-        container.innerHTML = '<p style="color: red;">Your cart is empty!</p>';
-        document.getElementById('checkout-total').innerText = '0.00';
-        return;
-    }
-    
-    cartService.cart.items.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.style.cssText = 'border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between;';
-        
-        const itemTotal = item.product.price * item.quantity;
-        calculatedTotal += itemTotal;
-        
-        itemDiv.innerHTML = `
-            <div>
-                <div style="font-weight: bold;">${item.product.name}</div>
-                <div style="font-size: 0.9em; color: #666;">Qty: ${item.quantity} @ $${item.product.price.toFixed(2)}</div>
-            </div>
-            <div style="text-align: right; font-weight: bold;">$${itemTotal.toFixed(2)}</div>
-        `;
-        container.appendChild(itemDiv);
-    });
-    
-    console.log("Calculated total:", calculatedTotal);
-    document.getElementById('checkout-total').innerText = calculatedTotal.toFixed(2);
-}
-</script>
